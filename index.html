@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado · Técnico Legislativo · Câmara de Palhoça · Edital 01/2026</title>
+<style>
+  :root{
+    --navy:#16233f;
+    --navy-2:#1f3157;
+    --parchment:#f3ede0;
+    --parchment-2:#e9e0cd;
+    --ink:#26241d;
+    --gold:#b8862f;
+    --gold-2:#8f6a24;
+    --ok:#3f6b52;
+    --ok-bg:#e4efe6;
+    --bad:#9c4436;
+    --bad-bg:#f6e6e2;
+    --line:#c9bfa5;
+    --serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+  }
+  .masthead{
+    background:var(--navy);
+    color:var(--parchment);
+    padding:28px 20px 22px;
+    border-bottom:6px solid var(--gold);
+  }
+  .masthead-inner{
+    max-width:880px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:#c9b98a;
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(24px,4vw,34px);
+    margin:0 0 6px;
+    letter-spacing:.2px;
+  }
+  .sub{
+    color:#cfd7e8;
+    font-size:14.5px;
+    margin:0;
+  }
+  .grid-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 22px;
+    margin-top:18px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:#d8cba0;
+  }
+  .grid-meta span b{color:#f3ede0;font-weight:700;}
+
+  main{max-width:880px;margin:0 auto;padding:26px 20px 90px;}
+
+  .intro-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:5px solid var(--gold);
+    padding:20px 22px;
+    margin-bottom:28px;
+    font-size:14.5px;
+  }
+  .intro-card h2{
+    font-family:var(--serif);
+    font-size:19px;
+    margin:0 0 10px;
+    font-weight:400;
+  }
+  .intro-card ul{margin:10px 0 0;padding-left:20px;}
+  .intro-card li{margin-bottom:4px;}
+
+  .start-btn{
+    display:inline-block;
+    margin-top:16px;
+    background:var(--navy);
+    color:var(--parchment);
+    border:none;
+    padding:13px 26px;
+    font-family:var(--sans);
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:.02em;
+    cursor:pointer;
+  }
+  .start-btn:hover{background:var(--navy-2);}
+
+  .section-title{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    color:var(--navy);
+    border-bottom:2px solid var(--navy);
+    padding-bottom:8px;
+    margin:36px 0 6px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .section-title small{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--gold-2);
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+
+  .q-card{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:18px 20px 16px;
+    margin:16px 0;
+    position:relative;
+  }
+  .q-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--gold-2);
+    margin-bottom:6px;
+    display:block;
+  }
+  .q-num{
+    font-family:var(--serif);
+    font-size:15px;
+    color:var(--navy);
+    font-weight:700;
+    margin-right:6px;
+  }
+  .q-text{font-size:15px;margin:2px 0 12px;}
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:8px 10px;
+    border:1px solid transparent;
+    cursor:pointer;
+    font-size:14px;
+    border-radius:2px;
+  }
+  .opt:hover{background:var(--parchment);}
+  .opt input{margin-top:3px;accent-color:var(--navy);}
+  .opt.correct{background:var(--ok-bg);border-color:var(--ok);}
+  .opt.wrong{background:var(--bad-bg);border-color:var(--bad);}
+  .opt-letter{font-family:var(--mono);font-weight:700;color:var(--navy);}
+
+  .explain{
+    display:none;
+    margin-top:12px;
+    padding:10px 12px;
+    background:var(--parchment);
+    border-left:3px solid var(--gold);
+    font-size:13.5px;
+  }
+  .explain.show{display:block;}
+  .explain b{color:var(--gold-2);}
+
+  .unanswered-flag{
+    display:none;
+    font-size:12px;
+    color:var(--bad);
+    font-family:var(--mono);
+    margin-top:8px;
+  }
+  .q-card.flag .unanswered-flag{display:block;}
+  .q-card.flag{border-left:3px solid var(--bad);}
+
+  .submit-bar{
+    position:sticky;
+    bottom:0;
+    background:linear-gradient(to top, var(--parchment) 70%, transparent);
+    padding:26px 0 10px;
+    text-align:center;
+  }
+  .submit-btn{
+    background:var(--gold-2);
+    color:#fff;
+    border:none;
+    padding:15px 38px;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.02em;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,.18);
+  }
+  .submit-btn:hover{background:var(--gold);}
+  .progress-note{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--ink);
+    margin-bottom:8px;
+  }
+
+  #results{display:none;}
+  .results-card{
+    background:var(--navy);
+    color:var(--parchment);
+    padding:28px 26px;
+    margin-bottom:26px;
+  }
+  .results-card h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:24px;
+    margin:0 0 4px;
+  }
+  .score-big{
+    font-family:var(--serif);
+    font-size:52px;
+    color:var(--gold);
+    margin:10px 0 4px;
+  }
+  .verdict{
+    display:inline-block;
+    padding:4px 12px;
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-top:6px;
+  }
+  .verdict.pass{background:var(--ok);color:#fff;}
+  .verdict.fail{background:var(--bad);color:#fff;}
+
+  .breakdown{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width:560px){.breakdown{grid-template-columns:1fr;}}
+  .bd-item{
+    background:rgba(255,255,255,.06);
+    padding:12px 14px;
+    border-left:3px solid var(--gold);
+  }
+  .bd-item .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#c9b98a;}
+  .bd-item .val{font-family:var(--serif);font-size:20px;margin-top:2px;}
+  .bar-track{height:6px;background:rgba(255,255,255,.15);margin-top:6px;}
+  .bar-fill{height:100%;background:var(--gold);}
+
+  .review-toggle{
+    text-align:center;
+    margin:18px 0 30px;
+  }
+  .ghost-btn{
+    background:transparent;
+    border:1px solid var(--navy);
+    color:var(--navy);
+    padding:10px 22px;
+    font-size:13.5px;
+    cursor:pointer;
+    font-family:var(--sans);
+  }
+  .ghost-btn:hover{background:var(--navy);color:#fff;}
+
+  footer{
+    text-align:center;
+    font-family:var(--mono);
+    font-size:11px;
+    color:#8a8060;
+    padding:20px;
+  }
+
+  .locked .opt{pointer-events:none;}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow">Fundatec · Concurso Público nº 01/2026 · Rev09</p>
+    <h1>Simulado — Técnico Legislativo</h1>
+    <p class="sub">Câmara Municipal de Palhoça/SC — Nível Médio Completo</p>
+    <div class="grid-meta">
+      <span>Questões: <b>70</b></span>
+      <span>Conhecimentos Gerais: <b>30</b> (mín. 12 acertos)</span>
+      <span>Conhecimentos Específicos: <b>40</b> (mín. 20 acertos)</span>
+      <span>Pontuação mínima total: <b>70,00 / 100,00</b></span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="intro-card" id="intro">
+    <h2>Como este simulado foi montado</h2>
+    <p>Segue fielmente o Anexo II (Quadro Demonstrativo de Provas) e os Anexos VI/VII (Programas) do Edital de Abertura nº 01/2026 para o cargo de <b>Técnico Legislativo</b>:</p>
+    <ul>
+      <li><b>Conhecimentos Gerais (30 questões, 1,20 pt cada):</b> Língua Portuguesa (10), Matemática/Raciocínio Lógico (5), Informática (5), Legislação (6), Atualidades (4).</li>
+      <li><b>Conhecimentos Específicos (40 questões, 1,60 pt cada):</b> Direito Constitucional, Direito Administrativo, Controle/Processo Administrativo, Orçamento e Contabilidade Pública, Licitações (Lei nº 14.133/2021), Gestão de Materiais e Patrimônio, Gestão de Pessoas, Rotinas Administrativas e Legislativas, Comunicação Administrativa e Ouvidoria Pública.</li>
+      <li>Ao final, você recebe a pontuação por bloco, se atingiu os mínimos de aprovação do edital e a correção comentada de cada questão.</li>
+    </ul>
+    <button class="start-btn" id="startBtn">Começar o simulado</button>
+  </div>
+
+  <form id="quizForm" class="hidden"></form>
+
+  <div class="submit-bar hidden" id="submitBar">
+    <div class="progress-note" id="progressNote">0 de 70 respondidas</div>
+    <button type="button" class="submit-btn" id="submitBtn">Corrigir prova</button>
+  </div>
+
+  <section id="results"></section>
+
+</main>
+
+<footer>Simulado gerado a partir do Edital de Abertura nº 01/2026 — Câmara Municipal de Palhoça/SC. Ferramenta de estudo independente, sem vínculo com a FUNDATEC.</footer>
+
+<script>
+const DATA = {
+  geral: {
+    portugues: [
+      {q:"Assinale a alternativa em que a concordância verbal está de acordo com a norma-padrão.",
+       o:["Fazem dois anos que o edital foi publicado.",
+          "Vai fazer dois meses que as inscrições se encerraram.",
+          "Existem, na Câmara, várias vagas reservadas a pessoas com deficiência.",
+          "Deve haver, segundo o edital, novos cargos que virão a surgir.",
+          "Houveram alterações no valor do auxílio-saúde."],
+       c:2,
+       e:"O verbo <b>existir</b> é pessoal e concorda normalmente com o sujeito (\"várias vagas\"). Já <b>fazer</b> e <b>haver</b>, indicando tempo decorrido ou existência, são impessoais e devem ficar na 3ª pessoa do singular."},
+      {q:"\"O concurso destina-se ao provimento de vagas previstas e/ou que vierem a surgir dentro do prazo de validade.\" A crase NÃO deve ser empregada em qual das frases abaixo?",
+       o:["A pessoa candidata deverá comparecer à Câmara Municipal para tomar posse.",
+          "As inscrições vão de 07 de maio à 06 de julho.",
+          "O recurso deve ser enviado à Comissão de Concursos.",
+          "A convocação se dará à pessoa candidata aprovada.",
+          "O documento deve ser encaminhado à FUNDATEC."],
+       c:1,
+       e:"Não se usa crase antes de numeral que indica limite de tempo sem artigo definido feminino determinado; o correto é \"de 07 de maio a 06 de julho\", pois \"a\" antecede numeral sem exigir o artigo \"a\" craseado."},
+      {q:"Leia o trecho: \"As pessoas candidatas que se autodeclararem para concorrer às vagas reservadas participarão do certame em igualdade de condições.\" O termo destacado (\"que se autodeclararem\") exerce a função de:",
+       o:["Objeto direto",
+          "Aposto explicativo",
+          "Oração subordinada adjetiva restritiva",
+          "Oração subordinada substantiva subjetiva",
+          "Vocativo"],
+       c:2,
+       e:"A oração introduzida pelo pronome relativo \"que\" restringe o antecedente \"pessoas candidatas\", especificando quais delas, o que caracteriza uma adjetiva restritiva."},
+      {q:"Assinale a alternativa cuja grafia está correta, conforme o Acordo Ortográfico vigente.",
+       o:["Pré-requisito, auto-declaração, ante-sala",
+          "Prerrequisito, autodeclaração, antessala",
+          "Pré requisito, auto declaração, ante sala",
+          "Prérequisito, autodeclaracão, antesala",
+          "Pre-requisito, autodeclaração, ante-sala"],
+       c:1,
+       e:"Com o prefixo terminado em vogal seguido de palavra iniciada por r ou s, dobra-se a consoante e junta-se sem hífen: prerrequisito, autodeclaração, antessala."},
+      {q:"Qual conjunção estabelece relação de CONCESSÃO na frase: \"___ o edital seja extenso, a leitura integral é obrigatória para a inscrição\"?",
+       o:["Porque","Embora","Portanto","Caso","Assim que"],
+       c:1,
+       e:"\"Embora\" introduz uma oração concessiva, indicando um fato que poderia se opor à conclusão, mas não o impede."},
+      {q:"Na frase \"A Câmara Municipal de Palhoça, órgão do Poder Legislativo, publicou o edital\", o termo \"órgão do Poder Legislativo\" classifica-se como:",
+       o:["Predicativo do sujeito","Aposto explicativo","Complemento nominal","Adjunto adnominal","Vocativo"],
+       c:1,
+       e:"O aposto explicativo esclarece ou detalha o termo anterior (a Câmara Municipal), vindo isolado por vírgulas."},
+      {q:"Assinale a alternativa em que todas as palavras seguem a mesma regra de acentuação de \"município\".",
+       o:["Título, sábado, prótese","Ítalo, café, pó","Além, também, país","Herói, chapéu, céu","Saúde, baú, egoísta"],
+       c:0,
+       e:"\"Município\", \"título\", \"sábado\" e \"prótese\" são proparoxítonas, todas acentuadas graficamente por regra geral, sem exceção."},
+      {q:"No período \"Caso a pessoa candidata não solicite atendimento especial, deverá realizar a prova sem os recursos adaptativos\", a oração destacada tem valor semântico de:",
+       o:["Causa","Condição","Concessão","Finalidade","Consequência"],
+       c:1,
+       e:"A conjunção \"caso\" é tipicamente condicional, introduzindo uma hipótese da qual depende o fato da oração principal."},
+      {q:"Assinale a figura de linguagem presente em \"a Câmara é a voz do povo\":",
+       o:["Metonímia","Metáfora","Hipérbole","Eufemismo","Ironia"],
+       c:1,
+       e:"Há metáfora porque se atribui a algo (a Câmara) uma característica de outro elemento (voz do povo) por comparação implícita, sem conectivo comparativo."},
+      {q:"Assinale a alternativa em que o pronome relativo está empregado corretamente, com a regência exigida pelo verbo.",
+       o:["Este é o edital que os candidatos mais se preocupam.",
+          "Este é o edital com que os candidatos mais se preocupam.",
+          "Este é o edital que os candidatos mais se preocupam com.",
+          "Este é o edital cujo os candidatos se preocupam.",
+          "Este é o edital aonde os candidatos se preocupam."],
+       c:1,
+       e:"O verbo \"preocupar-se\" exige a preposição \"com\"; como o antecedente é \"edital\", a construção correta une a preposição ao pronome relativo: \"com que\"."}
+    ],
+    matematica: [
+      {q:"A taxa de inscrição para Nível Médio Completo é R$ 80,00. Se a pessoa candidata tiver direito a desconto de 50%, quanto pagará?",
+       o:["R$ 30,00","R$ 35,00","R$ 40,00","R$ 45,00","R$ 50,00"],
+       c:2,
+       e:"50% de R$ 80,00 equivale a R$ 40,00 de desconto, restando R$ 40,00 a pagar."},
+      {q:"Se 5 fiscais conseguem organizar 100 provas em 2 horas, quantas horas 10 fiscais, trabalhando no mesmo ritmo, levariam para organizar 200 provas?",
+       o:["1 hora","2 horas","3 horas","4 horas","5 horas"],
+       c:1,
+       e:"Dobrando fiscais e provas na mesma proporção, o tempo permanece igual: regra de três composta mantém 2 horas."},
+      {q:"Qual é a negação lógica da proposição \"Todas as pessoas candidatas homologadas farão a prova em Palhoça\"?",
+       o:["Nenhuma pessoa candidata homologada fará a prova em Palhoça.",
+          "Algumas pessoas candidatas homologadas não farão a prova em Palhoça.",
+          "Todas as pessoas candidatas não homologadas farão a prova em Palhoça.",
+          "Todas as pessoas candidatas farão a prova fora de Palhoça.",
+          "Nenhuma pessoa candidata fará prova alguma."],
+       c:1,
+       e:"A negação de uma proposição universal afirmativa (\"todos são\") é uma proposição existencial negativa (\"algum não é\")."},
+      {q:"Observe a sequência: 3, 7, 15, 31, 63, ... Qual é o próximo número?",
+       o:["95","100","119","127","131"],
+       c:3,
+       e:"Cada termo é o dobro do anterior mais 1 (3×2+1=7; 7×2+1=15; ...); logo, 63×2+1=127."},
+      {q:"Do total de 5 vagas para Técnico Legislativo, 10% são reservadas a Pessoas com Deficiência, conforme a LC nº 96/2010. Sobre uma ampliação futura de 20 novas vagas, quantas seriam, no mínimo, reservadas a PCD?",
+       o:["1","2","3","4","5"],
+       c:1,
+       e:"10% de 20 vagas resulta em 2 vagas reservadas, respeitado o percentual mínimo estabelecido em lei."}
+    ],
+    informatica: [
+      {q:"No Microsoft Word (Office 365), qual recurso permite gerar automaticamente um sumário a partir dos títulos formatados com estilos?",
+       o:["Mala direta","Sumário automático (Referências > Sumário)","Marca-texto","Controle de alterações","Quebra de seção"],
+       c:1,
+       e:"O sumário automático é construído a partir dos estilos de título aplicados ao documento, disponível na guia Referências."},
+      {q:"No Excel, a fórmula =SE(B2>=70;\"Aprovado\";\"Reprovado\") tem por finalidade:",
+       o:["Somar os valores da coluna B",
+          "Contar quantas células são maiores que 70",
+          "Retornar um texto condicional conforme o valor da célula B2",
+          "Calcular a média da coluna B",
+          "Ordenar a planilha em ordem crescente"],
+       c:2,
+       e:"A função SE testa uma condição lógica e retorna um valor (texto, neste caso) para verdadeiro ou outro para falso."},
+      {q:"No Windows 10/11, qual atalho de teclado abre o Gerenciador de Tarefas diretamente?",
+       o:["Ctrl + Alt + Del","Ctrl + Shift + Esc","Alt + F4","Windows + L","Ctrl + Esc"],
+       c:1,
+       e:"Ctrl+Shift+Esc abre o Gerenciador de Tarefas diretamente, sem passar pela tela intermediária do Ctrl+Alt+Del."},
+      {q:"Um e-mail suspeito solicita que a pessoa candidata clique em um link para \"regularizar\" sua inscrição no concurso, informando dados bancários. Essa é uma tentativa característica de:",
+       o:["Phishing","Firewall","Backup incremental","Criptografia simétrica","Balanceamento de carga"],
+       c:0,
+       e:"Phishing é a técnica de fraude que induz a vítima a fornecer dados sensíveis por meio de mensagens ou links falsos que simulam fontes legítimas."},
+      {q:"Sobre Inteligência Artificial aplicada a ferramentas de escritório (como o Copilot no Microsoft 365), é correto afirmar que:",
+       o:["Substitui integralmente a verificação humana de dados sensíveis",
+          "Pode auxiliar em sugestões de texto e automação de tarefas, mas exige revisão quanto a vieses e proteção de dados",
+          "É proibida por lei em qualquer órgão público",
+          "Elimina a necessidade de políticas de segurança da informação",
+          "Não pode ser integrada a navegadores ou planilhas"],
+       c:1,
+       e:"O uso de IA generativa deve vir acompanhado de revisão humana e observância da LGPD e das políticas de segurança da informação do órgão."}
+    ],
+    legislacao: [
+      {q:"Conforme a Lei Complementar nº 96/2010 (Estatuto dos Servidores do Município de Palhoça), o regime de ingresso previsto no Edital nº 01/2026 é o:",
+       o:["Celetista","Estatutário","Temporário","Comissionado","Cooperado"],
+       c:1,
+       e:"O próprio edital estabelece que o ingresso se dá pelo regime jurídico-administrativo estatutário, regido pela LC nº 96/2010."},
+      {q:"É assegurado às Pessoas com Deficiência, nos termos da LC nº 96/2010, o percentual mínimo de reserva de vagas de:",
+       o:["5%","10%","15%","20%","25%"],
+       c:1,
+       e:"O edital reproduz o percentual legal de 10% (dez por cento) das vagas existentes e futuras reservado às Pessoas com Deficiência."},
+      {q:"No âmbito do Direito Penal aplicado à Administração Pública, o servidor que se apropria de dinheiro público de que tem posse em razão do cargo pratica, em tese, o crime de:",
+       o:["Prevaricação","Peculato","Concussão","Corrupção passiva","Advocacia administrativa"],
+       c:1,
+       e:"O peculato consiste na apropriação de bem ou valor público (ou de terceiro sob a guarda da Administração) de que o funcionário tem posse em razão do cargo."},
+      {q:"O funcionário que retarda ou deixa de praticar ato de ofício para satisfazer interesse ou sentimento pessoal comete o crime de:",
+       o:["Peculato","Concussão","Prevaricação","Corrupção ativa","Emprego irregular de verbas públicas"],
+       c:2,
+       e:"Prevaricação é justamente retardar ou deixar de praticar, indevidamente, ato de ofício por interesse ou sentimento pessoal."},
+      {q:"Segundo a Lei de Introdução às Normas do Direito Brasileiro (Decreto-Lei nº 4.657/1942), a lei começa a vigorar, em regra, em todo o país:",
+       o:["No dia de sua publicação",
+          "45 dias depois de oficialmente publicada, salvo disposição em contrário",
+          "90 dias depois de aprovada pelo Congresso",
+          "No primeiro dia útil do mês seguinte à publicação",
+          "Somente após regulamentação por decreto"],
+       c:1,
+       e:"A LINDB fixa o prazo de 45 dias entre a publicação e a entrada em vigor da lei (vacatio legis), salvo disposição diversa expressa na própria norma."},
+      {q:"Segundo o Regimento Interno de uma Câmara Municipal, a instância responsável por organizar e disciplinar os trabalhos das sessões legislativas e a ordem dos debates é, tipicamente, a:",
+       o:["Mesa Diretora","Ouvidoria","Controladoria Interna","Comissão de Ética externa","Secretaria de Fazenda"],
+       c:0,
+       e:"A Mesa Diretora é o órgão colegiado que dirige os trabalhos legislativos e administrativos da Câmara, conforme disciplina o Regimento Interno."}
+    ],
+    atualidades: [
+      {q:"Palhoça está localizada em qual região do estado de Santa Catarina, integrando a Região Metropolitana da capital?",
+       o:["Região Metropolitana de Florianópolis","Região do Vale do Itajaí","Região Serrana","Extremo-Oeste catarinense","Região Carbonífera"],
+       c:0,
+       e:"Palhoça faz parte da Região Metropolitana de Florianópolis, na Grande Florianópolis."},
+      {q:"A Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018) tem como um de seus fundamentos principais:",
+       o:["A livre iniciativa exclusiva de empresas privadas",
+          "A autodeterminação informativa e a proteção da privacidade",
+          "A obrigatoriedade de divulgação irrestrita de dados públicos e privados",
+          "A extinção do sigilo bancário",
+          "A vedação total ao tratamento de dados por órgãos públicos"],
+       c:1,
+       e:"A LGPD tem entre seus fundamentos a autodeterminação informativa e a proteção à privacidade das pessoas naturais."},
+      {q:"No contexto da administração pública brasileira, o termo \"accountability\" está mais associado a:",
+       o:["Redução de impostos",
+          "Prestação de contas e responsabilização dos agentes públicos",
+          "Terceirização de serviços",
+          "Digitalização de arquivos apenas",
+          "Ampliação do número de cargos comissionados"],
+       c:1,
+       e:"Accountability remete à obrigação de prestar contas e responder pelos atos praticados no exercício da função pública, ligando-se à transparência."},
+      {q:"A pauta da sustentabilidade e do desenvolvimento sustentável, recorrente em concursos públicos, refere-se principalmente a:",
+       o:["Priorizar exclusivamente o crescimento econômico, sem considerar impactos ambientais",
+          "Equilibrar desenvolvimento econômico, inclusão social e preservação ambiental",
+          "Eliminar toda atividade industrial",
+          "Restringir o desenvolvimento apenas a países já industrializados",
+          "Tratar-se de tema exclusivamente ambiental, sem relação social ou econômica"],
+       c:1,
+       e:"O conceito de desenvolvimento sustentável busca equilibrar três pilares: econômico, social e ambiental, atendendo às necessidades presentes sem comprometer as futuras gerações."}
+    ]
+  },
+  especificas: [
+    {area:"Direito Constitucional", q:"O Poder Legislativo Municipal é exercido pela Câmara Municipal, composta por:",
+     o:["Vereadores eleitos pelo sistema majoritário","Vereadores eleitos pelo sistema proporcional","Prefeito e Vice-Prefeito","Secretários municipais indicados pelo Prefeito","Membros do Tribunal de Contas do Estado"],
+     c:1,e:"Os vereadores são eleitos pelo sistema proporcional, conforme a Constituição Federal, para compor a Câmara Municipal."},
+    {area:"Direito Constitucional", q:"No processo legislativo, quando o Chefe do Executivo discorda de projeto de lei aprovado, ele pode exercer o:",
+     o:["Referendo","Veto","Plebiscito","Recurso extraordinário","Mandado de segurança"],
+     c:1,e:"O veto é o instrumento pelo qual o Chefe do Executivo discorda, total ou parcialmente, de projeto de lei aprovado pelo Legislativo."},
+    {area:"Direito Constitucional", q:"São exemplos de direitos individuais previstos na Constituição Federal, EXCETO:",
+     o:["Direito à vida","Direito à liberdade","Direito à igualdade","Direito de greve dos trabalhadores urbanos e rurais","Direito à propriedade"],
+     c:3,e:"O direito de greve é classificado como direito social, não individual, na sistemática constitucional dos direitos e garantias fundamentais."},
+    {area:"Direito Constitucional", q:"A repartição de competências entre União, Estados, Distrito Federal e Municípios, na forma federativa de Estado, tem por objetivo principal:",
+     o:["Concentrar todo o poder decisório na União",
+        "Distribuir atribuições entre os entes federativos, respeitando a autonomia de cada um",
+        "Extinguir a autonomia municipal",
+        "Subordinar os Municípios diretamente aos Estados em todas as matérias",
+        "Unificar toda a legislação nacional em um único órgão"],
+     c:1,e:"A repartição de competências busca conciliar a unidade nacional com a autonomia dos entes federados, cada qual com atribuições próprias."},
+    {area:"Direito Constitucional", q:"A fiscalização contábil, financeira e orçamentária do Município é exercida pela Câmara Municipal com o auxílio:",
+     o:["Do Ministério Público Federal","Do Tribunal de Contas do Estado","Da Polícia Federal","Do Supremo Tribunal Federal","Da Receita Federal"],
+     c:1,e:"No âmbito municipal, o controle externo é exercido pela Câmara Municipal, com o auxílio do Tribunal de Contas do Estado (ou, onde houver, do Município)."},
+    {area:"Direito Constitucional", q:"São exemplos de direitos sociais previstos na Constituição Federal:",
+     o:["Educação, saúde, trabalho e moradia","Direito de propriedade e herança apenas","Nacionalidade e cidadania apenas","Sigilo de correspondência apenas","Direito de voto apenas"],
+     c:0,e:"Os direitos sociais compreendem, entre outros, educação, saúde, trabalho, moradia, lazer, segurança e previdência social."},
+    {area:"Direito Administrativo", q:"Os princípios expressos da Administração Pública, previstos no art. 37 da Constituição Federal, são conhecidos pelo acrônimo LIMPE, que significa:",
+     o:["Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência",
+        "Legitimidade, Isonomia, Moralidade, Proporcionalidade e Economicidade",
+        "Legalidade, Individualidade, Moralidade, Publicidade e Especialidade",
+        "Liberdade, Igualdade, Moralidade, Publicidade e Eficácia",
+        "Legalidade, Impessoalidade, Motivação, Publicidade e Especialidade"],
+     c:0,e:"LIMPE é o mnemônico consagrado para os cinco princípios expressos: Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência."},
+    {area:"Direito Administrativo", q:"O atributo do ato administrativo pelo qual se presume, até prova em contrário, que ele foi praticado em conformidade com a lei denomina-se:",
+     o:["Autoexecutoriedade","Imperatividade","Presunção de legitimidade","Tipicidade","Discricionariedade"],
+     c:2,e:"A presunção de legitimidade (ou legalidade) faz com que o ato administrativo seja presumido válido até que se demonstre o contrário."},
+    {area:"Direito Administrativo", q:"A Administração Pública Indireta é composta, entre outras, pelas seguintes entidades:",
+     o:["Ministérios e Secretarias","Autarquias, fundações públicas, empresas públicas e sociedades de economia mista","Câmaras Municipais e Assembleias Legislativas","Tribunais de Justiça e Tribunais de Contas","Partidos políticos"],
+     c:1,e:"A Administração Indireta reúne autarquias, fundações públicas, empresas públicas e sociedades de economia mista, criadas para descentralizar a execução de atividades estatais."},
+    {area:"Direito Administrativo", q:"O poder que permite à Administração restringir ou condicionar o exercício de direitos individuais em prol do interesse coletivo (ex.: fiscalização de posturas municipais) denomina-se:",
+     o:["Poder hierárquico","Poder disciplinar","Poder de polícia","Poder regulamentar","Poder vinculado"],
+     c:2,e:"O poder de polícia autoriza a Administração a limitar direitos individuais em benefício do interesse público, como ocorre na fiscalização de posturas."},
+    {area:"Direito Administrativo", q:"A possibilidade de a própria Administração rever seus atos, anulando os ilegais e revogando os inconvenientes, sem necessidade de recorrer ao Judiciário, decorre do princípio da:",
+     o:["Autotutela","Publicidade","Impessoalidade","Continuidade do serviço público","Especialidade"],
+     c:0,e:"A autotutela permite que a Administração controle seus próprios atos, anulando ilegalidades e revogando atos inconvenientes, conforme pacificado inclusive em súmulas do STF."},
+    {area:"Direito Administrativo", q:"Diferencia-se a anulação da revogação de atos administrativos pelo seguinte critério:",
+     o:["A anulação atinge atos ilegais e a revogação atinge atos inconvenientes ou inoportunos, ainda que legais",
+        "Ambas só podem ser feitas pelo Poder Judiciário",
+        "A revogação tem efeitos retroativos (ex tunc) e a anulação não",
+        "Somente a anulação pode ser feita de ofício pela Administração",
+        "Não há diferença prática entre os dois institutos"],
+     c:0,e:"A anulação decorre de ilegalidade e retroage (ex tunc); a revogação decorre de conveniência/oportunidade e produz efeitos apenas para frente (ex nunc)."},
+    {area:"Direito Administrativo", q:"Quanto à classificação dos agentes públicos, o servidor investido em cargo de provimento efetivo, mediante concurso público, é classificado como:",
+     o:["Agente político","Servidor estatutário de carreira","Empregado público celetista","Agente honorífico","Particular em colaboração"],
+     c:1,e:"O servidor efetivo, aprovado em concurso público e submetido a regime estatutário, integra a categoria de servidores públicos estatutários."},
+    {area:"Controle/Processo Administrativo", q:"Conforme a Lei nº 8.429/1992 (Improbidade Administrativa, com alterações), constitui modalidade de ato de improbidade administrativa:",
+     o:["Apenas o que causa enriquecimento ilícito",
+        "Apenas o que causa prejuízo ao erário",
+        "Enriquecimento ilícito, prejuízo ao erário e atentado contra os princípios da Administração, conforme tipificação legal",
+        "Somente atos praticados por agentes políticos",
+        "Somente atos dolosos de particulares sem qualquer relação com agente público"],
+     c:2,e:"A lei tipifica atos de improbidade que geram enriquecimento ilícito, causam prejuízo ao erário ou atentam contra os princípios da Administração Pública."},
+    {area:"Controle/Processo Administrativo", q:"Segundo a Lei de Acesso à Informação (Lei nº 12.527/2011), o prazo geral para resposta a um pedido de informação, quando não for possível a resposta imediata, é de:",
+     o:["10 dias, prorrogável por mais 10","20 dias, prorrogável por mais 10","30 dias, sem possibilidade de prorrogação","5 dias, prorrogável por mais 5","15 dias, prorrogável por mais 15"],
+     c:1,e:"A LAI estabelece prazo de até 20 dias, prorrogável por mais 10 dias mediante justificativa expressa, para resposta ao pedido de acesso à informação."},
+    {area:"Controle/Processo Administrativo", q:"Sobre a Lei Geral de Proteção de Dados (Lei nº 13.709/2018) aplicada a órgãos públicos, é correto afirmar que:",
+     o:["Órgãos públicos estão totalmente dispensados de observar a LGPD",
+        "O tratamento de dados pessoais por entes públicos deve observar finalidade, necessidade e boa-fé, entre outros princípios",
+        "A LGPD só se aplica a empresas privadas com fins lucrativos",
+        "Dados sensíveis podem ser tratados livremente por qualquer servidor",
+        "Não há necessidade de base legal para tratamento de dados pelo poder público"],
+     c:1,e:"A LGPD também se aplica à Administração Pública, exigindo observância de princípios como finalidade, adequação, necessidade e boa-fé no tratamento de dados pessoais."},
+    {area:"Controle/Processo Administrativo", q:"No processo administrativo, a fase em que a Administração reúne provas, documentos e pareceres necessários à decisão denomina-se fase:",
+     o:["Instaurativa","Instrutória","Decisória","Recursal","Executória"],
+     c:1,e:"A fase instrutória é aquela em que se produzem e reúnem as provas e elementos necessários à formação do convencimento da autoridade decisória."},
+    {area:"Orçamento e Contabilidade Pública", q:"A ordem cronológica correta de elaboração dos instrumentos de planejamento orçamentário é:",
+     o:["LOA, LDO, PPA","PPA, LDO, LOA","LDO, PPA, LOA","LOA, PPA, LDO","PPA, LOA, LDO"],
+     c:1,e:"O Plano Plurianual (PPA) orienta a Lei de Diretrizes Orçamentárias (LDO), que por sua vez orienta a elaboração da Lei Orçamentária Anual (LOA)."},
+    {area:"Orçamento e Contabilidade Pública", q:"Os estágios da despesa pública, na ordem correta, são:",
+     o:["Empenho, liquidação e pagamento","Liquidação, empenho e pagamento","Pagamento, empenho e liquidação","Empenho, pagamento e liquidação","Liquidação, pagamento e empenho"],
+     c:0,e:"A Lei nº 4.320/1964 estabelece a sequência: empenho (reserva do crédito), liquidação (verificação do direito do credor) e pagamento (entrega do valor)."},
+    {area:"Orçamento e Contabilidade Pública", q:"Os créditos adicionais, destinados a suprir insuficiências ou incluir despesas não previstas na LOA, classificam-se em:",
+     o:["Suplementares, especiais e extraordinários","Ordinários, especiais e complementares","Suplementares, ordinários e emergenciais","Especiais, complementares e vinculados","Extraordinários, vinculados e residuais"],
+     c:0,e:"A Lei nº 4.320/1964 classifica os créditos adicionais em suplementares (reforço de dotação existente), especiais (despesa sem dotação específica) e extraordinários (despesas urgentes e imprevisíveis)."},
+    {area:"Orçamento e Contabilidade Pública", q:"A Lei de Responsabilidade Fiscal (LC nº 101/2000) estabelece limites para a despesa com pessoal, tendo como principal objetivo:",
+     o:["Estimular o aumento indiscriminado do quadro de servidores",
+        "Garantir o equilíbrio das contas públicas e a responsabilidade na gestão fiscal",
+        "Extinguir o pagamento de subsídios a agentes políticos",
+        "Eliminar qualquer despesa com pessoal no setor público",
+        "Transferir a folha de pagamento municipal para a União"],
+     c:1,e:"A LRF fixa limites de gasto com pessoal justamente para preservar o equilíbrio fiscal e a responsabilidade na gestão dos recursos públicos."},
+    {area:"Orçamento e Contabilidade Pública", q:"Despesas legalmente empenhadas, mas não pagas até o encerramento do exercício financeiro, são inscritas como:",
+     o:["Receita orçamentária","Restos a pagar","Superávit financeiro","Dívida ativa","Suprimento de fundos"],
+     c:1,e:"Restos a pagar são as despesas empenhadas e não pagas até 31 de dezembro, inscritas para pagamento no exercício seguinte."},
+    {area:"Orçamento e Contabilidade Pública", q:"Quanto à classificação da receita pública, a arrecadação de tributos, como taxas e impostos, é considerada receita:",
+     o:["De capital","Extraorçamentária","Corrente","Compensatória","De alienação de bens"],
+     c:2,e:"Tributos como impostos e taxas constituem receitas correntes, destinadas a cobrir despesas correntes do ente público."},
+    {area:"Licitações e Contratos", q:"A Lei nº 14.133/2021 estabeleceu como modalidades de licitação, entre outras:",
+     o:["Convite, tomada de preços e concorrência apenas",
+        "Pregão, concorrência, concurso, leilão e diálogo competitivo",
+        "Somente pregão eletrônico",
+        "Convite e concurso apenas",
+        "Tomada de preços e leilão apenas"],
+     c:1,e:"A nova Lei de Licitações extinguiu convite e tomada de preços e trouxe as modalidades pregão, concorrência, concurso, leilão e diálogo competitivo."},
+    {area:"Licitações e Contratos", q:"São princípios expressos que regem as licitações públicas, conforme a Lei nº 14.133/2021:",
+     o:["Legalidade, impessoalidade, moralidade, publicidade e eficiência, entre outros",
+        "Apenas o menor preço, sem qualquer outro critério",
+        "Sigilo absoluto de todas as propostas",
+        "Livre escolha do fornecedor pelo agente público",
+        "Ausência de qualquer controle de custos"],
+     c:0,e:"A lei reafirma os princípios constitucionais da Administração e acrescenta outros específicos, como julgamento objetivo, competitividade e planejamento."},
+    {area:"Licitações e Contratos", q:"A contratação direta sem licitação, quando há inviabilidade de competição (por exemplo, fornecedor exclusivo), caracteriza-se como:",
+     o:["Dispensa de licitação","Inexigibilidade de licitação","Licitação deserta","Licitação fracassada","Adesão a ata de registro de preços"],
+     c:1,e:"A inexigibilidade ocorre quando não há viabilidade de competição, como no caso de fornecedor exclusivo, diferentemente da dispensa, em que a competição é possível mas a lei autoriza sua não realização."},
+    {area:"Licitações e Contratos", q:"São fases do processo licitatório, entre outras previstas na Lei nº 14.133/2021:",
+     o:["Preparatória, de divulgação do edital, de apresentação de propostas, de julgamento, de habilitação e recursal",
+        "Apenas divulgação e assinatura do contrato",
+        "Apenas homologação e pagamento",
+        "Somente fase recursal",
+        "Apenas fase de execução contratual"],
+     c:0,e:"O processo licitatório compreende, entre outras, as fases preparatória, de divulgação, apresentação de propostas, julgamento, habilitação, recursal e homologação."},
+    {area:"Licitações e Contratos", q:"A fiscalização da execução do contrato administrativo, verificando o cumprimento das obrigações pactuadas, deve ser exercida:",
+     o:["Exclusivamente pelo contratado",
+        "Por fiscal ou gestor de contrato designado pela Administração",
+        "Apenas pelo Tribunal de Contas, após a execução",
+        "Somente por auditoria externa contratada",
+        "Não é exigida fiscalização formal"],
+     c:1,e:"A Administração deve designar servidor (fiscal ou gestor de contrato) responsável por acompanhar e fiscalizar a execução contratual."},
+    {area:"Gestão de Materiais e Patrimônio", q:"O procedimento de contagem física dos bens e materiais existentes em estoque ou em uso, para conferência com os registros contábeis, denomina-se:",
+     o:["Tombamento","Inventário físico","Empenho","Licitação","Depreciação"],
+     c:1,e:"O inventário físico é a contagem e conferência periódica dos bens patrimoniais e de estoque, comparando-os aos registros contábeis."},
+    {area:"Gestão de Materiais e Patrimônio", q:"O registro de um bem público no patrimônio do órgão, com atribuição de número de controle individual, é chamado de:",
+     o:["Baixa patrimonial","Tombamento","Suprimento de fundos","Empenho","Licitação"],
+     c:1,e:"O tombamento é o ato de registrar e identificar (numerar) o bem no patrimônio da instituição para fins de controle."},
+    {area:"Gestão de Materiais e Patrimônio", q:"A retirada de um bem do patrimônio ativo, por motivo de perda, obsolescência ou alienação, denomina-se:",
+     o:["Tombamento","Inventário","Baixa patrimonial","Empenho","Suprimento"],
+     c:2,e:"A baixa patrimonial é o procedimento de exclusão do bem dos registros ativos do patrimônio, por diversos motivos, como inservibilidade ou alienação."},
+    {area:"Gestão de Materiais e Patrimônio", q:"A perda de valor de um bem em razão do uso, desgaste ou obsolescência ao longo do tempo é contabilmente reconhecida como:",
+     o:["Amortização","Depreciação","Exaustão","Correção monetária","Reavaliação"],
+     c:1,e:"A depreciação registra a perda de valor de bens móveis e imóveis tangíveis decorrente do desgaste pelo uso, ação da natureza ou obsolescência."},
+    {area:"Gestão de Pessoas", q:"No regime jurídico estatutário, adotado pela Câmara Municipal de Palhoça conforme a LC nº 96/2010, a relação entre servidor e Administração é regida:",
+     o:["Por contrato de trabalho regido pela CLT",
+        "Por estatuto legal, com direitos e deveres definidos em lei",
+        "Por acordo verbal informal",
+        "Exclusivamente por convenção coletiva",
+        "Por contrato de prestação de serviços autônomo"],
+     c:1,e:"No regime estatutário, os direitos, deveres e responsabilidades do servidor decorrem de lei (estatuto), e não de um contrato de trabalho regido pela CLT."},
+    {area:"Gestão de Pessoas", q:"O controle de frequência e jornada de trabalho dos servidores tem como principal finalidade administrativa:",
+     o:["Impedir o exercício do direito de férias",
+        "Assegurar o cumprimento da carga horária e subsidiar a folha de pagamento",
+        "Substituir o processo de avaliação de desempenho",
+        "Eliminar a necessidade de registros funcionais",
+        "Restringir direitos previdenciários do servidor"],
+     c:1,e:"O controle de frequência serve para verificar o cumprimento da jornada contratada/legal e embasar corretamente a folha de pagamento e eventuais descontos."},
+    {area:"Gestão de Pessoas", q:"O regime disciplinar dos servidores públicos estatutários prevê, entre outras, a seguinte penalidade em caso de infração funcional grave:",
+     o:["Advertência verbal informal, sem registro",
+        "Demissão, respeitados o contraditório e a ampla defesa",
+        "Redução automática de salário sem processo",
+        "Transferência compulsória sem motivação",
+        "Extinção do vínculo por mero ato discricionário, sem processo administrativo"],
+     c:1,e:"A demissão é penalidade disciplinar prevista em estatutos de servidores para infrações graves, sempre precedida de processo administrativo disciplinar com contraditório e ampla defesa."},
+    {area:"Rotinas Administrativas e Legislativas", q:"Segundo o Manual de Redação da Presidência da República, o expediente utilizado para comunicação entre órgãos públicos, contendo assunto único, é denominado:",
+     o:["Memorando ou ofício, conforme o caso","Ata notarial","Escritura pública","Petição inicial","Recurso extraordinário"],
+     c:0,e:"O ofício (comunicação externa) e o memorando (comunicação interna) são os expedientes padronizados para comunicação entre órgãos e unidades administrativas, cada qual com assunto específico."},
+    {area:"Rotinas Administrativas e Legislativas", q:"No processo legislativo municipal, a fase em que um projeto de lei é analisado pelas comissões permanentes antes de ir a plenário denomina-se:",
+     o:["Sanção","Promulgação","Instrução nas comissões (tramitação)","Veto","Publicação"],
+     c:2,e:"Antes da votação em plenário, os projetos costumam tramitar pelas comissões permanentes competentes, que emitem pareceres técnicos sobre a proposição."},
+    {area:"Comunicação Administrativa", q:"No atendimento ao público em órgãos legislativos, uma boa prática de comunicação institucional é:",
+     o:["Utilizar linguagem excessivamente técnica, independentemente do interlocutor",
+        "Adotar linguagem clara, objetiva e acessível ao cidadão",
+        "Evitar registrar as solicitações recebidas",
+        "Priorizar informações incompletas para agilizar o atendimento",
+        "Restringir o atendimento apenas a canais presenciais"],
+     c:1,e:"A comunicação administrativa eficaz busca clareza e objetividade, tornando a informação acessível ao cidadão, alinhada, inclusive, à Política Nacional de Linguagem Simples."},
+    {area:"Ouvidoria Pública", q:"Conforme a Lei nº 13.460/2017 (Código de Defesa do Usuário do Serviço Público), constitui direito básico do usuário:",
+     o:["Receber atendimento sem qualquer prazo definido",
+        "Obter informações precisas e de fácil acesso sobre a prestação dos serviços",
+        "Ser impedido de apresentar reclamações",
+        "Ter suas manifestações sempre mantidas em sigilo absoluto e sem resposta",
+        "Pagar taxas para registrar reclamações"],
+     c:1,e:"A lei assegura ao usuário o direito a informações claras e de fácil acesso sobre a prestação dos serviços públicos, entre outras garantias."},
+    {area:"Ouvidoria Pública", q:"Entre as funções típicas de uma Ouvidoria Pública está:",
+     o:["Substituir o setor jurídico do órgão em todas as demandas",
+        "Receber, registrar, analisar e encaminhar manifestações de reclamação, denúncia, sugestão e elogio",
+        "Aplicar diretamente sanções disciplinares aos servidores",
+        "Homologar o resultado de concursos públicos",
+        "Fiscalizar exclusivamente a execução orçamentária"],
+     c:1,e:"A Ouvidoria atua como canal de comunicação entre o cidadão e o órgão público, recebendo e encaminhando manifestações para as áreas competentes."}
+  ]
+};
+
+// build ordered question list with global numbering
+const ALL = [];
+let n = 1;
+[["Língua Portuguesa","portugues"],["Matemática / Raciocínio Lógico","matematica"],
+ ["Informática","informatica"],["Legislação","legislacao"],["Conhecimentos Gerais / Atualidades","atualidades"]]
+ .forEach(([label,key])=>{
+    DATA.geral[key].forEach(item=>{
+      ALL.push({num:n++, block:"geral", area:label, ...item, weight:1.20});
+    });
+ });
+DATA.especificas.forEach(item=>{
+  ALL.push({num:n++, block:"especificas", ...item, weight:1.60});
+});
+
+const form = document.getElementById('quizForm');
+const submitBar = document.getElementById('submitBar');
+const progressNote = document.getElementById('progressNote');
+
+function letter(i){return String.fromCharCode(65+i);}
+
+function renderQuiz(){
+  let html = '';
+  let lastArea = null, lastBlock = null;
+
+  ALL.forEach(item=>{
+    if(item.block !== lastBlock){
+      html += `<div class="section-title">${item.block === 'geral' ? 'Bloco I — Conhecimentos Gerais (30 questões · 1,20 pt cada)' : 'Bloco II — Conhecimentos Específicos (40 questões · 1,60 pt cada)'} <small>${item.block==='geral'?'mín. 12 acertos':'mín. 20 acertos'}</small></div>`;
+      lastArea = null;
+    }
+    lastBlock = item.block;
+
+    if(item.area !== lastArea){
+      html += `<div class="q-tag" style="margin:18px 2px -4px;">${item.area}</div>`;
+      lastArea = item.area;
+    }
+
+    html += `<div class="q-card" id="card-${item.num}">
+      <div class="q-text"><span class="q-num">${item.num}.</span>${item.q}</div>
+      <div class="opts">`;
+    item.o.forEach((opt,i)=>{
+      html += `<label class="opt" data-q="${item.num}" data-i="${i}">
+        <input type="radio" name="q${item.num}" value="${i}">
+        <span><span class="opt-letter">${letter(i)})</span> ${opt}</span>
+      </label>`;
+    });
+    html += `</div>
+      <div class="unanswered-flag">⚠ Questão não respondida</div>
+      <div class="explain" id="explain-${item.num}"></div>
+    </div>`;
+  });
+
+  form.innerHTML = html;
+  form.classList.remove('hidden');
+  submitBar.classList.remove('hidden');
+  document.getElementById('intro').classList.add('hidden');
+  updateProgress();
+  form.addEventListener('change', updateProgress);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateProgress(){
+  const answered = ALL.filter(item => form.querySelector(`input[name="q${item.num}"]:checked`)).length;
+  progressNote.textContent = `${answered} de ${ALL.length} respondidas`;
+}
+
+document.getElementById('startBtn').addEventListener('click', renderQuiz);
+
+document.getElementById('submitBtn').addEventListener('click', ()=>{
+  let unanswered = 0;
+  let scoreGeral = 0, scoreEspec = 0, correctGeral = 0, correctEspec = 0;
+  let areaStats = {};
+
+  ALL.forEach(item=>{
+    const chosen = form.querySelector(`input[name="q${item.num}"]:checked`);
+    const card = document.getElementById(`card-${item.num}`);
+    card.classList.remove('flag');
+    const opts = card.querySelectorAll('.opt');
+
+    if(!chosen){
+      unanswered++;
+      card.classList.add('flag');
+    }
+
+    opts.forEach((optEl,i)=>{
+      if(i === item.c) optEl.classList.add('correct');
+      if(chosen && parseInt(chosen.value) === i && i !== item.c) optEl.classList.add('wrong');
+    });
+
+    const isCorrect = chosen && parseInt(chosen.value) === item.c;
+    if(!areaStats[item.area]) areaStats[item.area] = {correct:0,total:0};
+    areaStats[item.area].total++;
+    if(isCorrect) areaStats[item.area].correct++;
+
+    if(item.block === 'geral'){
+      if(isCorrect){ scoreGeral += item.weight; correctGeral++; }
+    } else {
+      if(isCorrect){ scoreEspec += item.weight; correctEspec++; }
+    }
+
+    const explainEl = document.getElementById(`explain-${item.num}`);
+    explainEl.innerHTML = `<b>Gabarito: ${letter(item.c)}</b> — ${item.e}`;
+    explainEl.classList.add('show');
+  });
+
+  form.classList.add('locked');
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('submitBtn').textContent = 'Prova corrigida';
+  document.getElementById('submitBtn').style.opacity = '0.6';
+  document.getElementById('submitBtn').style.cursor = 'default';
+
+  renderResults({scoreGeral, scoreEspec, correctGeral, correctEspec, unanswered, areaStats});
+
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+});
+
+function renderResults({scoreGeral, scoreEspec, correctGeral, correctEspec, unanswered, areaStats}){
+  const total = +(scoreGeral + scoreEspec).toFixed(2);
+  const passGeral = correctGeral >= 12;
+  const passEspec = correctEspec >= 20;
+  const passTotal = total >= 70;
+  const approved = passGeral && passEspec && passTotal;
+
+  const results = document.getElementById('results');
+  results.style.display = 'block';
+
+  let bd = '';
+  Object.entries(areaStats).forEach(([area,st])=>{
+    const pct = Math.round((st.correct/st.total)*100);
+    bd += `<div class="bd-item">
+      <div class="lbl">${area}</div>
+      <div class="val">${st.correct}/${st.total}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+
+  results.innerHTML = `
+    <div class="results-card">
+      <p class="eyebrow" style="color:#c9b98a;">Resultado do simulado</p>
+      <h2>Técnico Legislativo — Câmara de Palhoça</h2>
+      <div class="score-big">${total.toFixed(2)} <small style="font-size:16px;color:#cfd7e8;">/ 100,00</small></div>
+      <div class="verdict ${approved ? 'pass' : 'fail'}">${approved ? 'Atingiu os mínimos do edital' : 'Não atingiu os mínimos do edital'}</div>
+      <div class="breakdown">
+        <div class="bd-item">
+          <div class="lbl">Conhecimentos Gerais</div>
+          <div class="val">${correctGeral}/30 acertos</div>
+          <div style="font-family:var(--mono);font-size:11px;margin-top:4px;color:${passGeral?'#9fd6b2':'#e5a89e'}">${passGeral ? '✓ mín. 12 atingido' : '✗ mín. 12 não atingido'} · ${scoreGeral.toFixed(2)} pts</div>
+        </div>
+        <div class="bd-item">
+          <div class="lbl">Conhecimentos Específicos</div>
+          <div class="val">${correctEspec}/40 acertos</div>
+          <div style="font-family:var(--mono);font-size:11px;margin-top:4px;color:${passEspec?'#9fd6b2':'#e5a89e'}">${passEspec ? '✓ mín. 20 atingido' : '✗ mín. 20 não atingido'} · ${scoreEspec.toFixed(2)} pts</div>
+        </div>
+      </div>
+      ${unanswered > 0 ? `<p style="margin-top:16px;font-size:13px;color:#e5c99e;">⚠ ${unanswered} questão(ões) não respondida(s), contabilizada(s) como erro.</p>` : ''}
+    </div>
+
+    <div class="section-title" style="margin-top:8px;">Desempenho por área</div>
+    <div class="breakdown">${bd}</div>
+
+    <div class="review-toggle">
+      <button class="ghost-btn" onclick="document.getElementById('quizForm').scrollIntoView({behavior:'smooth'})">Ver correção comentada, questão a questão ↑</button>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
